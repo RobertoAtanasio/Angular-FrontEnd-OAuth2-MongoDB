@@ -1,17 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserLogin } from 'src/app/core/model/login';
 import { ApiService } from 'src/app/core/api.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'src/app/core/message.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login-user',
   templateUrl: './login-user.component.html',
   styleUrls: ['./login-user.component.scss']
 })
-export class LoginUserComponent implements OnInit {
+export class LoginUserComponent implements OnInit, OnDestroy {
 
   user = new UserLogin();
+  private unsubscribeMessage = new Subject();
+  submeteu = false;
 
   constructor(
     private apiService: ApiService,
@@ -19,9 +23,15 @@ export class LoginUserComponent implements OnInit {
     private mensagem: MessageService) { }
 
   ngOnInit() {
+    this.mensagem.notfyObservable$.pipe(takeUntil(this.unsubscribeMessage)).subscribe(result => {
+      if (result === true) {
+        this.submeteu = false;
+      }
+    } );
   }
 
   public login() {
+    this.submeteu = true;
     // obter o access token
     this.apiService.login(this.user).subscribe(data => {
       // após o access token, obter os dados do usuário logado.
@@ -54,5 +64,10 @@ export class LoginUserComponent implements OnInit {
     // salva o objeto do usuário corrente
     localStorage.setItem('currentUser', JSON.stringify(user));
     this.router.navigate(['welcome']);
+  }
+
+  ngOnDestroy() {
+    this.unsubscribeMessage.next();
+    this.unsubscribeMessage.complete();
   }
 }

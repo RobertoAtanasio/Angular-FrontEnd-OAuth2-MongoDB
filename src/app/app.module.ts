@@ -23,6 +23,7 @@ import { ApiService } from './core/api.service';
 import { InterceptorService } from './core/interceptor.service';
 import { AuthGuard } from './core/guards/auth.guard';
 import { MessageService } from './core/message.service';
+import { RegisterConfirmationComponent } from './components/register-user/register-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -34,13 +35,14 @@ import { MessageService } from './core/message.service';
     ListUserComponent,
     WelcomeComponent,
     HeaderComponent,
-    DeleteUserModelComponent
+    DeleteUserModelComponent,
+    RegisterConfirmationComponent
   ],
   imports: [
     CommonModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
-      timeOut: 3000,
+      timeOut: 2500,
       positionClass: 'toast-top-right',
       preventDuplicates: true,
       progressAnimation: 'decreasing'

@@ -12,7 +12,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let user of users; let i = index;">
+    <tr *ngFor="let user of usuarios; let i = index;">
       <td class="hidden">{{i+1}}</td>
       <td>{{user.firstName}}</td>
       <td>{{user.lastName}}</td>
@@ -25,7 +25,7 @@
           <button class="btn btn-info " [routerLink]="['/edit-user', user.id]" style="margin-left: 20px;"> Editar</button>
         </div>
       </td>
-      <app-delete-user-model #deleteUserModal [recebeItem]="usuario"
+      <app-delete-user-model #deleteUserModal [recebeItem]="user"
           (resposta)="deleteUser($event)"></app-delete-user-model>
     </tr>
     </tbody>
